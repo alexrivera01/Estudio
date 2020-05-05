@@ -1,0 +1,7 @@
+java sweb.ClassFileServer 2080 c:\public_html
+
+rmiregistry 8080 -J-Djava.rmi.server.codebase=http://localhost:2080/
+
+java -Djava.security.policy=calc.policy -Djava.rmi.server.codebase=http://localhost:2080/ servidor.ServidorBootStrap
+
+java -Djava.security.policy=calc.policy -Djava.rmi.server.codebase=http://localhost:2080/ cliente.ClienteBootStrap

@@ -1,0 +1,8 @@
+Andrew S.Tanenbaum. Sistemas Operativos Modernos.Prentice Hall. 2da edición. ISBN 970-26-0315-3
+?Andrew S.Tanenbaum. Computer Networks. Prentice Hall. 3a. edición. 1996
+?George Coulouris. Distributed Systems. Addison Wesley.
+?Mischa Schuartz. Redes de Telecomunicaciones. Addison-Wesley. 1994.
+?Programación distribuida con RPC's. Daniel Sainz Castro y Rodrigo Jiménez.
+?Subrahmanyam Allamaraju. Professional Java Server Programming J2EE 1.3 Edition. Wrox Press Ltd. USA. ISBN 1-861005-37-7.
+?Robert Orfali and Dan Harley. Java Programming with CORBA, 2nd edition. John Wiley & Sons Inc., 1998.
+?Ronny Kolb. An Introduction to COM, DCOM and COM+. SEMINAR Component-based Softwar
