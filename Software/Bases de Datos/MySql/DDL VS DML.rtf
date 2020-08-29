@@ -1,0 +1,146 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang3082{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\colortbl ;\red209\green99\blue73;}
+{\*\generator Msftedit 5.41.21.2512;}\viewkind4\uc1\pard\sa200\sl276\slmult1\lang10\f0\fs22 DDL / DML\par
+\cf1\fs40 Lenguaje de definici\'f3n de datos (DDL)\cf0\fs22\par
+\par
+El lenguaje de definici\'f3n de datos (en ingl\'e9s Data Definition Language, o DDL), es el que se encarga de la modificaci\'f3n de la estructura de los objetos de la base de datos. Incluye \'f3rdenes para modificar,borrar o definir las tablas en las que se almacenan las base de datos. Existen cuatro operaciones b\'e1sicas: CREATE, ALTER, DROP y TRUNCATE.\par
+\par
+CREATE\par
+Este comando crea un objeto dentro de la base de datos. Puede ser una tabla, [[Vista 'CAMPO 2' STRING\par
+\par
+Ejemplo (crear una funci\'f3n)\par
+CREATE OR REPLACE FUNCTION 'NOMBRE FUNCION'('PARAMETROS')\par
+RETURNS 'TIPO RETORNO' AS\par
+$BODY$\par
+BEGIN\par
+'INSTRUCCI\'d3N SQL'\par
+--por Ejemplo:\par
+DELETE FROM con empleado WHERE id empleado = 'ANY' (ids);\par
+END;\par
+$BODY$\par
+LANGUAGE 'plpgsql';\par
+\par
+ALTER\par
+Este comando permite modificar la estructura de un objeto. Se pueden agregar/quitar campos a una tabla, modificar el tipo de un campo, agregar/quitar \'edndices a una tabla, modificar un trigger, etc.\par
+\par
+Ejemplo (agregar columna a una tabla)\par
+ALTER TABLE 'TABLA_NOMBRE' (\par
+ADD NUEVO_CAMPO INT UNSIGNED meel\par
+)\par
+\par
+DROP\par
+Este comando elimina un objeto de la base de datos. Puede ser una tabla, vista, \'edndice, trigger, funci\'f3n, procedimiento o cualquier otro objeto que el motor de la base de datos soporte. Se puede combinar con la sentencia ALTER.\par
+\par
+Ejemplo\par
+ALTER TABLE ''TABLA_NOMBRE''\par
+(\par
+DROP COLUMN ''CAMPO_NOMBRE1''\par
+)\par
+\par
+TRUNCATE\par
+Este comando trunca todo el contenido de una tabla. La ventaja sobre el comando DROP, es que si se quiere borrar todo el contenido de la tabla, es mucho m\'e1s r\'e1pido, especialmente si la tabla es muy grande. La desventaja es que TRUNCATE s\'f3lo sirve cuando se quiere eliminar absolutamente todos los registros, ya que no se permite la cl\'e1usula WHERE. Si bien, en un principio, esta sentencia parecer\'eda ser DML (Lenguaje de Manipulaci\'f3n de Datos), es en realidad una DDL, ya que internamente, el comando TRUNCATE borra la tabla y la vuelve a crear y no ejecuta ninguna transacci\'f3n.\par
+\par
+Ejemplo\par
+TRUNCATE TABLE ''TABLA_NOMBRE1''\par
+\par
+\par
+\cf1\fs40 Lenguaje de manipulaci\'f3n de datos DML(Data Manipulation Language)\cf0\fs22\par
+Definici\'f3n\par
+Un lenguaje de manipulaci\'f3n de datos (Data Manipulation Language, o DML en ingl\'e9s) es un lenguaje proporcionado por el sistema de gesti\'f3n de base de datos que permite a los usuarios llevar a cabo las tareas de consulta o manipulaci\'f3n de los datos, organizados por el modelo de datos adecuado.\par
+El lenguaje de manipulaci\'f3n de datos m\'e1s popular hoy d\'eda es SQL, usado para recuperar y manipular datos en una base de datos relacional.\par
+\par
+INSERT\par
+Una sentencia INSERT de SQL agrega uno o m\'e1s registros a una (y s\'f3lo una) tabla en una base de datos relacional.\par
+\par
+Forma b\'e1sica\par
+INSERT INTO ''tabla'' (''columna1'', [''columna2,... '']) VALUES (''valor1'', [''valor2,...''])\par
+Las cantidades de columnas y valores deben ser iguales. Si una columna no se especifica, le ser\'e1 asignado el valor por omisi\'f3n. Los valores especificados (o impl\'edcitos) por la sentencia INSERT deber\'e1n satisfacer todas las restricciones aplicables. Si ocurre un error de sintaxis o si alguna de las restricciones es violada, no se agrega la fila y se devuelve un error.\par
+\par
+Ejemplo\par
+INSERT INTO agenda_telefonica (nombre, numero) VALUES ('Roberto Jeldrez', 4886850);\par
+\par
+Cuando se especifican todos los valores de una tabla, se puede utilizar la sentencia acortada:\par
+\par
+INSERT INTO ''tabla'' VALUES (''valor1'', [''valor2,...''])\par
+\par
+Ejemplo (asumiendo que 'nombre' y 'n\'famero' son las \'fanicas columnas de la tabla 'agenda_telefonica'):\par
+\par
+INSERT INTO agenda_telefonica VALUES ('Roberto Jeldrez', 080473968);\par
+\par
+Formas avanzadas\par
+\par
+Inserciones en m\'faltiples filas\par
+Una caracter\'edstica de SQL (desde SQL-92) es el uso de constructores de filas para insertar m\'faltiples filas a la vez, con una sola sentencia SQL:\par
+\par
+INSERT INTO ''tabla'' (''columna1'', [''columna2,... ''])\par
+VALUES (''valor1a'', [''valor1b,...'']), (''value2a'', [''value2b,...'']),...\par
+\par
+Esta caracter\'edstica es soportada por DB2, PostgreSQL (desde la versi\'f3n 8.2), MySQL, y H2.\par
+Ejemplo (asumiendo que 'nombre' y 'n\'famero' son las \'fanicas columnas en la tabla 'agenda_telefonica'):\par
+\par
+INSERT INTO agenda_telefonica VALUES ('Roberto Fern\'e1ndez', '4886850'), ('Alejandro Sosa', '4556550');\par
+\par
+Que pod\'eda haber sido realizado por las sentencias\par
+INSERT INTO agenda_telefonica VALUES ('Roberto Fern\'e1ndez', '4886850');\par
+INSERT INTO agenda_telefonica VALUES ('Alejandro Sosa', '4556550');\par
+\par
+Notar que las sentencias separadas pueden tener sem\'e1ntica diferente (especialmente con respecto a los triggers), y puede tener diferente rendimiento que la sentencia de inserci\'f3n m\'faltiple.\par
+\par
+Para insertar varias filas en MS SQL puede utilizar esa construcci\'f3n:\par
+\par
+INSERT INTO phone_book\par
+SELECT 'John Doe', '555-1212'\par
+UNION ALL\par
+SELECT 'Peter Doe', '555-2323';\par
+\par
+Tenga en cuenta que no se trata de una sentencia SQL v\'e1lida de acuerdo con el est\'e1ndar SQL (SQL: 2003), debido a la cl\'e1usula subselect incompleta.\par
+\par
+Para hacer lo mismo en Oracle se usa DUAL TABLE, siempre que se trate de solo una simple fila:\par
+INSERT INTO phone_book\par
+SELECT 'John Doe', '555-1212' FROM DUAL\par
+UNION ALL\par
+SELECT 'Peter Doe','555-2323' FROM DUAL\par
+\par
+Una implementaci\'f3n conforme al est\'e1ndar de esta l\'f3gica se muestra el siguiente ejemplo, o como se muestra arriba (no aplica en Oracle):\par
+\par
+INSERT INTO phone_book\par
+SELECT 'John Doe', '555-1212' FROM LATERAL ( VALUES (1) ) AS t(c)\par
+UNION ALL\par
+SELECT 'Peter Doe','555-2323' FROM LATERAL ( VALUES (1) ) AS t(c)]\par
+Copia de filas de otras tablas\par
+\par
+Un INSERT tambi\'e9n puede utilizarse para recuperar datos de otros, modificarla si es necesario e insertarla directamente en la tabla. Todo esto se hace en una sola sentencia SQL que no implica ning\'fan procesamiento intermedio en la aplicaci\'f3n cliente. Un SUBSELECT se utiliza en lugar de la cl\'e1usula VALUES. El SUBSELECT puede contener JOIN, llamadas a funciones, y puede incluso consultar en la misma TABLA los datos que se inserta. L\'f3gicamente, el SELECT se eval\'faa antes que la operaci\'f3n INSERT est\'e9 iniciada. Un ejemplo se da a continuaci\'f3n.\par
+\par
+INSERT INTO phone_book2\par
+SELECT *\par
+FROM phone_book\par
+WHERE name IN ('John Doe', 'Peter Doe')\par
+\par
+Una variaci\'f3n es necesaria cuando algunos de los datos de la tabla fuente se est\'e1 insertando en la nueva tabla, pero no todo el registro. (O cuando los esquemas de las tablas no son iguales.)\par
+\par
+INSERT INTO phone_book2 ( [name], [phoneNumber] )\par
+\par
+SELECT [name], [phoneNumber]\par
+FROM phone_book\par
+WHERE name IN ('John Doe', 'Peter Doe')\par
+\par
+El SELECT produce una tabla (temporal), y el esquema de la tabla temporal debe coincidir con el esquema de la tabla donde los datos son insertados.]\par
+\par
+UPDATE\par
+Una sentencia UPDATE de SQL es utilizada para modificar los valores de un conjunto de registros existentes en una tabla.\par
+\par
+Ejemplo\par
+UPDATE My_table SET field1 = 'updated value asd' WHERE field2 = 'N';\par
+\par
+DELETE\par
+Una sentencia DELETE de SQL borra uno o m\'e1s registros existentes en una tabla.\par
+Forma b\'e1sica\par
+SQL="DELETE FROM ''tabla'' WHERE ''columna1'' = ''valor1''"\par
+\par
+Ejemplo\par
+DELETE FROM My_table WHERE field2 = 'N';\par
+\par
+\par
+\par
+}
+ 
