@@ -79,9 +79,41 @@ END;
 
 --PROCEDIMIENTOS ALMACENADOS
 
+CREATE OR REPLACE PROCEDURE imprimir
+IS
+v_num integer := 1;
+BEGIN
+LOOP 
+    DBMS_OUTPUT.PUT_LINE('Imprimir: ' || v_num);
+    v_num := v_num+1;
+    EXIT WHEN v_num >10;
+END LOOP;
+END;
+
+ALTER TABLE estudiante add nom_est VARCHAR2(30)
+    
+CREATE OR REPLACE PROCEDURE proce
+(
+    nombre NUMBER
+)
+IS 
+    variables VARCHAR2(30) := nombre;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(variables);
+END;
+
+begin
+    proce(2);
+end;
 
 
 
+SET SERVEROUTPUT ON
+BEGIN
+FOR cont in 1..10 LOOP
+    DBMS_OUTPUT.PUT_LINE(cont);
+END LOOP;
+END;
 
 
 
