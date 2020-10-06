@@ -1,0 +1,45 @@
+create or replace procedure obtener
+(
+    id_pais pais.pai_id%type
+)
+is 
+    type datos is record
+    (
+        v_nom_actor actor.act_nombre%TYPE,
+        v_nom_representante representante.rep_nombre%TYPE NULL,
+        v_num_peliculas integer NULL
+    );
+    type datos_tabla is table of datos index by PLS_INTEGER;
+    mi_table_anidada datos_tabla;
+    v_nombre_pais varchar(30);
+begin
+    if id_pais < 1 then 
+        raise_application_error(-20002,'el codigo de pais es negativo');
+    else
+        select act_nombre, rep_nombre, COUNT(*)
+        bulk collect into mi_table_anidada
+        from actor  inner join actua 
+        on actor.act_id = actua.act_id
+        left join representante 
+        on actor.rep_id = representante.rep_id
+        where pai_id = id_pais
+        group by actua.act_id, act_nombre, rep_nombre;
+        
+        select pai_nombre
+        into v_nombre_pais
+        from pais
+        where pais.pai_id = id_pais;
+        
+        dbms_output.put_line('nombre del pais :' || v_nombre_pais);
+        
+        for i in mi_table_anidada.first..mi_table_anidada.last loop
+            if(mi_table_anidada(i).v_nom_representante = null OR mi_table_anidada(i).v_nom_representante = '') then
+                dbms_output.put_line('nombre actor ' || mi_table_anidada(i).v_nom_actor || 'no tiene representante' || 'Numero de peliculas :' || mi_table_anidada(i).v_num_peliculas);
+            else
+                dbms_output.put_line('nombre actor ' || mi_table_anidada(i).v_nom_actor || 'respresentante :'|| mi_table_anidada(i).v_nom_representante || 'Numero de peliculas :' || mi_table_anidada(i).v_num_peliculas);
+            end if;
+        end loop;
+    end if;
+end;
+
+execute obtener(1);

@@ -1,0 +1,22 @@
+DECLARE 
+    TYPE t_array IS VARRAY(50) OF VARCHAR(100);
+    --AQUI ESTAMOS INICIALIZANDO EL VAR1 PERO SOLO TIENE 2 POSICIONES
+    VAR1 t_array := t_array('POS 1','POS 2');
+BEGIN
+    --AQUI SOLO PODEMOS CAMBIAR LA POSICICION 1 Y LA POSICION 2 EN CASO CONTRARIO DARA LA EXCEPCION ORA-06533
+    VAR1(2) := 'hola';
+END;
+
+DECLARE 
+    TYPE t_car IS VARRAY(30) OF VARCHAR(50);
+    carros t_car := t_car();
+    indice_fuera_rango EXCEPTION;
+    PRAGMA EXCEPTION_INIT(indice_fuera_rango,-06533);
+BEGIN
+    carros(2) := 'hola';
+EXCEPTION 
+        WHEN indice_fuera_rango THEN
+            DBMS_OUTPUT.PUT_LINE('INDICE FUERA DE RANGO...');
+        WHEN OTHERS THEN
+            DBMS_OUTPUT.PUT_LINE('ERROR DESCONOCIDO...');
+END;

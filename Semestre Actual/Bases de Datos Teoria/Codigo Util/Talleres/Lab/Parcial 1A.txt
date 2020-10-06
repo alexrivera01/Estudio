@@ -1,0 +1,65 @@
+--EDWARD ALEXANDER RIVERA URRUTIA 
+
+--PUNTO B
+create or replace procedure procedimiento1
+(
+    p_torid torero.torid%TYPE,
+--Edward Alexander Rivera Urrutia
+
+create or replace procedure procedimiento1
+(
+    p_torid torero.torid%TYPE,
+    p_corid corrida.corid%TYPE
+)
+IS
+    v_id_torero torero.torid%TYPE;
+    v_nombre_torero torero.tornombre%TYPE;
+    v_nombre_corrida corrida.cornombre%TYPE;
+    v_fecha_participacion participa.cor_fecha%TYPE;
+BEGIN
+
+    SELECT torero.torid, torero.tornombre,corrida.cornombre,participa.cor_fecha
+    INTO v_id_torero, v_nombre_torero,v_nombre_corrida, v_fecha_participacion
+    FROM participa inner join torero 
+    ON participa.torid = torero.torid
+    INNER JOIN corrida
+    ON  participa.corid = corrida.corid
+    where torero.torid = p_torid  and corrida.corid = p_corid;
+    
+    DBMS_OUTPUT.PUT_LINE('Id Torero:' || v_id_torero || 'Nombre Torero :' || v_nombre_torero || 'Nombre de corrida :' || v_nombre_corrida || 'Fecha de participacion ' || v_fecha_participacion);
+    procedimiento2('hola');
+END;
+
+--PUNTO C
+create or replace procedure procedimiento2
+(
+    p_palabra Varchar2
+)
+IS
+    v_iterador integer := 1;
+    v_tamaño_cadena integer := LENGTH(p_palabra);
+    v_aux_caracter_a_insertar varchar2(2);
+BEGIN
+   
+    loop 
+        v_aux_caracter_a_insertar := SUBSTR(p_palabra, v_iterador, 1);
+        INSERT INTO plazatoros values(v_iterador,v_aux_caracter_a_insertar);
+        v_iterador := v_iterador+1;
+        exit when v_iterador > v_tamaño_cadena;
+    end loop;
+    dbms_output.put_line('Procedimiento punto c terminado');
+end;
+
+--PUNTO A 
+set serveroutput on 
+set echo off 
+set verify off
+
+accept v_id_tor PROMPT 'Digite el id del torero :';
+accept v_id_cor PROMPT 'Digite el id de la corrida :';
+declare 
+    v_id_torero torero.torid%TYPE := &v_id_tor;
+    v_id_corrida corrida.corid%TYPE := &v_id_cor;
+begin 
+    procedimiento1(v_id_torero,v_id_corrida);
+end;
